@@ -25,7 +25,7 @@ module.exports = async ({ markdownAST }) => {
 
     if (!isTranslation(toString(last))) {
       
-      if (type === 'heading' && last.data.hProperties || type === 'paragraph' && !last.data.hProperties) {
+      if (type === 'heading' && last.data.hProperties || type === 'paragraph') {
         
         node.data.hProperties = {
           ...node.data.hProperties,
