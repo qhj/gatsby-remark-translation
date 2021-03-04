@@ -1,7 +1,7 @@
 {
   "name": "gatsby-remark-translation",
   "description": "An https://angular.cn style translation plugin for Gatsby.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "千魂剑 <me@qhj.moe>",
   "main": "index.js",
   "keywords": [
