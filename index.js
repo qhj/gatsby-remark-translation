@@ -11,50 +11,52 @@ module.exports = async ({ markdownAST }) => {
   visit(markdownAST, (node, index, parent) => {
     
     const type = node.type
+    
     if (type !== 'heading' && type !== 'paragraph') {
       return
     }
 
     !node.data && (node.data = {})
 
-    if (!isTranslation(toString(node))) {
+    if (index === 0 && !isTranslation(toString(node))) {
       return
     }
 
-    const last = parent.children[index - 1]
+    const previous = parent.children[index - 1]
 
-    if (!isTranslation(toString(last))) {
-      
-      if (type === 'heading' && last.data.hProperties || type === 'paragraph') {
-        
-        node.data.hProperties = {
-          ...node.data.hProperties,
-          "translation-result": "on"
-        }
-        
-        last.data.hProperties = {
-          ...last.data.hProperties,
-          "translation-origin": "off"
-        }
-        
-        type === 'heading' && (last.data.hProperties = {
-          ...last.data.hProperties,
-          "id": toString(node)
-        })
+    if (!isTranslation(toString(previous))) {
 
-        if (type === 'heading') {
-          const isLink = element => element.type === 'link'
-          const index1 = node.children.findIndex(isLink)
-          const index2 = last.children.findIndex(isLink)
-          if (index1 !== -1 && index2 !== -1) {
-            last.children[index2].url = node.children[index1].url
-          }
-        }
-        
-        parent.children.splice(index - 1, 1, parent.children[index])
-        parent.children.splice(index, 1, last)
-        
+      if (previous.data.hProperties["translation-origin"]) {
+        return
       }
+      
+      node.data.hProperties = {
+        ...node.data.hProperties,
+        "translation-result": "on"
+      }
+      
+      previous.data.hProperties = {
+        ...previous.data.hProperties,
+        "translation-origin": "off"
+      }
+      
+      type === 'heading' && (previous.data.hProperties = {
+        ...previous.data.hProperties,
+        "id": toString(node)
+      })
+
+      if (type === 'heading') {
+        const isLink = element => element.type === 'link'
+        const index1 = node.children.findIndex(isLink)
+        const index2 = previous.children.findIndex(isLink)
+        if (index1 !== -1 && index2 !== -1) {
+          previous.children[index2].url = node.children[index1].url
+        }
+      }
+      
+      parent.children.splice(index - 1, 1, parent.children[index])
+      parent.children.splice(index, 1, previous)
+
     }
   })
 
