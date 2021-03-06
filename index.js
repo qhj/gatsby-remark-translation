@@ -18,7 +18,7 @@ module.exports = async ({ markdownAST }) => {
 
     !node.data && (node.data = {})
 
-    if (index === 0 && !isTranslation(toString(node))) {
+    if (index === 0 || !isTranslation(toString(node))) {
       return
     }
 
