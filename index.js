@@ -26,7 +26,7 @@ module.exports = async ({ markdownAST }) => {
 
     if (!isTranslation(toString(previous)) && isTranslation(toString(node))) {
 
-      if (previous.data.hProperties["translation-origin"]) {
+      if (previous.data.hProperties && previous.data.hProperties["translation-origin"]) {
         return
       }
       
