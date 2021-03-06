@@ -1,4 +1,4 @@
-exports.onInitialClientRender = () => {
+exports.onRouteUpdate = () => {
   document.querySelectorAll('[translation-result=on]').forEach(element => {
     element.addEventListener('click', (_) => {
       let next = element.nextElementSibling
