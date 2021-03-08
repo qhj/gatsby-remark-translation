@@ -24,7 +24,7 @@ module.exports = async ({ markdownAST }) => {
 
     const previous = parent.children[index - 1]
 
-    if (!isTranslation(toString(previous)) && isTranslation(toString(node))) {
+    if (!isTranslation(toString(previous)) && isTranslation(toString(node)) && previous.type === type) {
 
       if (previous.data.hProperties && previous.data.hProperties["translation-origin"]) {
         return
